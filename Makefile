@@ -37,10 +37,10 @@ CPP_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.cpp, %.o, $(notdir $
 T_C_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o, $(notdir $(wildcard tests/*.c))))
 T_CPP_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.cpp, %.o, $(notdir $(wildcard tests/*.cpp))))
 
-$(BUILD_DIR)/libcerberus.a: $(C_OBJECT_FILES) $(CPP_OBJECT_FILES)
-	ar rcs $@ $^
+$(BUILD_DIR)/libcerberus.a: setup $(C_OBJECT_FILES) $(CPP_OBJECT_FILES)
+	ar rcs $@ $(C_OBJECT_FILES) $(CPP_OBJECT_FILES)
 
-all: setup $(BUILD_DIR)/libcerberus.a test
+all: $(BUILD_DIR)/libcerberus.a test
 
 test: $(T_C_OBJECT_FILES) $(T_CPP_OBJECT_FILES)
 	$(CXX) $^ $(BUILD_DIR)/libcerberus.a -o build/CerberusBuilder

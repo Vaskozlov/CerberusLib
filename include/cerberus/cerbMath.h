@@ -1,3 +1,6 @@
+#ifndef cerbMath_h
+#define cerbMath_h
+
 #include <float.h>
 #include <stddef.h>
 #include <inttypes.h>
@@ -51,3 +54,5 @@ namespace cerb{
 }
 
 #endif /* __cplusplus */
+
+#endif /* cerbMath_h */
