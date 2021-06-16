@@ -35,7 +35,7 @@ void vector_test(){
 }
 
 int main(){
-    Putchar = putchar;
+    CPutchar = putchar;
 
     static u64 buffer1[100], buffer2[100];
     

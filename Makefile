@@ -55,7 +55,7 @@ $(BUILD_DIR)/%.o: code/%.c
 	$(CC) $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/%.o: tests/%.cpp
-	$(CXX) -c -g -Wall -Wextra -O0 -std=c++20 $< -o $@
+	$(CXX) -c -g -Wall -Wextra -O0 -std=c++20 -I ./include $< -o $@
 
 $(BUILD_DIR)/%.o: tests/%.c
-	$(CC) -c -g -Wall -Wextra -O0 -std=c11 $< -o $@
+	$(CC) -c -g -Wall -Wextra -O0 -std=c11 -I ./include $< -o $@
