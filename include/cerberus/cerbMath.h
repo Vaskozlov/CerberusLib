@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <inttypes.h>
 
-#if !defined(__cplusplus)
+#if !defined(__cplusplus) && (__cplusplus < 202002L)
 
     typedef union {
         uint64_t value;
@@ -19,6 +19,7 @@
 
     float cerbABSf(float x);
     double cerbABS(double x);
+    
 #else
 
 namespace cerb{

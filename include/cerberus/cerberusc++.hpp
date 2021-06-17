@@ -41,7 +41,7 @@ namespace cerb{
 
     template<typename _Tp>
     inline _Tp align(_Tp value, u16 powerof2){
-        static_assert(std::is_unsigned<_Tp>::value, "Only works for unsigned types");
+        static_assert(std::is_unsigned<_Tp>::value, "cerb::align is working only for signed types.");
         return (value & (((_Tp)1 << powerof2) - (_Tp)1)) == (_Tp)0 ? value : value + (((_Tp)1 << powerof2) - (value & (((_Tp)1 << powerof2) - (_Tp)1)));
     }
 
@@ -52,7 +52,7 @@ namespace cerb{
 
     template<typename _Tp>
     always_inline _Tp ABS(_Tp value){
-        static_assert(std::is_signed<_Tp>::value, "Only works for signed types");
+        static_assert(std::is_signed<_Tp>::value, "cerb::ABS is working only for signed types. bruh...");
         return value < 0 ? -value : value;
     }
 
