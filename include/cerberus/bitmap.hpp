@@ -8,8 +8,12 @@
 #define offsetof(t, d) __builtin_offsetof(t, d)
 #endif
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreorder-ctor"
+#if defined(__has_warning)
+#  if __has_warning("-Wreorder-ctor")
+#    pragma GCC diagnostic push
+#    pragma clang diagnostic ignored "-Wreorder-ctor"
+#  endif
+#endif
 
 namespace cerb{
 
@@ -127,7 +131,6 @@ namespace cerb{
         BitmapFree(BitmapFree<_Tp> &&other) : _data(other._data), _size(other._size){
             other._data = nullptr;
             other._size = 0;
-            return *this;
         }
 
     public:
@@ -258,7 +261,6 @@ namespace cerb{
         Bitmap(Bitmap<_Tp> &&other) : _data(other._data), _size(other._size){
             other._data = nullptr;
             other._size = 0;
-            return *this;
         }
 
     public:
@@ -273,5 +275,10 @@ namespace cerb{
     };
 }
 
-#pragma GCC diagnostic pop
+#if defined(__has_warning)
+#  if __has_warning("-Wreorder-ctor")
+#     pragma GCC diagnostic pop
+#  endif
+#endif
+
 #endif /* bitmap_hpp */

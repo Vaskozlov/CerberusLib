@@ -27,6 +27,10 @@ typedef uint32_t    u32;
 typedef uint64_t    u64;
 
 namespace cerb{
+    using byte = uint8_t;
+}
+
+namespace cerb{
 
     template<typename _Tp>
     union ByteMask{

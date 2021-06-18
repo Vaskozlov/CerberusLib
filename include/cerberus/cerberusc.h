@@ -19,6 +19,8 @@ typedef uint16_t    u16;
 typedef uint32_t    u32;
 typedef uint64_t    u64;
 
+typedef uint8_t     byte;
+
 #define CERB_PI 3.14159265358979323846
 
 #define TO_RAD(x) (x / 180 * CERB_PI)
