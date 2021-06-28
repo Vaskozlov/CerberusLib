@@ -1,6 +1,15 @@
 CC	:= clang
 CXX	:= clang++
 
+CCV := $(shell $(CC) -dumpversion)
+
+PREFIX       := /usr/bin
+HOSTCC       := $(PREFIX)/clang
+OS           := $(shell uname -s)
+HOSTARCH     ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+ARCH         ?= $(shell $(HOSTCC) -dumpmachine | cut -f1 -d- | sed -e s,i[3456789]86,ia32, -e 's,armv[67].*,arm,' )
+
+
 CFLAGS := \
 		-c \
 		-g \
@@ -32,6 +41,7 @@ CXXFLAGS := \
 BUILD_DIR := build
 
 C_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o, $(notdir $(wildcard code/*.c))))
+C_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o, $(notdir $(wildcard code/$(ARCH)/sseavx/*.c))))
 CPP_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.cpp, %.o, $(notdir $(wildcard code/*.cpp))))
 
 T_C_OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o, $(notdir $(wildcard tests/*.c))))
@@ -48,11 +58,17 @@ test: $(T_C_OBJECT_FILES) $(T_CPP_OBJECT_FILES)
 setup:
 	@mkdir -p $(BUILD_DIR)
 
-$(BUILD_DIR)/%.o: code/%.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+$(BUILD_DIR)/%_sse.o: code/$(ARCH)/sseavx/%_sse.c
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%_avx.o: code/$(ARCH)/sseavx/%_avx.c
+	$(CC) $(CFLAGS) -mavx -mavx2 $< -o $@
 
 $(BUILD_DIR)/%.o: code/%.c
 	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: code/%.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 $(BUILD_DIR)/%.o: tests/%.cpp
 	$(CXX) -c -g -Wall -Wextra -O0 -std=c++20 -I ./include $< -o $@
