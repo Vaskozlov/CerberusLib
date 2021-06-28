@@ -256,7 +256,7 @@ namespace cerb{
 
     public:
 
-        vector(std::initializer_list<_Tp> elems) : _size(0), _capicity(cerb::MAX<size_t>(4, elems.size())){
+        vector(::std::initializer_list<_Tp> elems) : _size(0), _capicity(cerb::MAX<size_t>(4, elems.size())){
             _data = static_cast<_Tp*>(operator new(_capicity * sizeof(_Tp)));
             for (auto elem: elems) push_back(cerb::move(elem));
         }

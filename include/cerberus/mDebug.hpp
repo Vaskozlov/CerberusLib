@@ -33,6 +33,7 @@ namespace cerb{
         }
 
     public:
+        MemoryDebug() = default;
         inline MemoryDebug(int (*printfFun)(const char *, ...), void *(*mallocFun)(size_t), void (*freeFun)(void*)) : Printf(printfFun), Malloc(mallocFun), Free(freeFun) {}
     };
 
