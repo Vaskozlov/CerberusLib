@@ -1,7 +1,7 @@
 .text
 
 .global CPU_ID
-.global memset
+.weak memset
 .global memset8
 .global memset16
 .global memset32
