@@ -1,12 +1,13 @@
 #ifndef cerbPrintTypes_h
 #define cerbPrintTypes_h
 
+#include <alloca.h>
 #include <cerberus/cerberus.h>
 
 __BEGIN_DECLS
 
 #define POWERS_POSITVE_OFFSET 300
-#define OUTPUT_ARRAY_SIZE (sizeof(uintmax_t) * 9)
+#define OUTPUT_ARRAY_SIZE (sizeof(uintmax_t) * 9U)
 
 enum PrintingWays{
     BinNum      = 'b',
@@ -32,18 +33,18 @@ typedef struct PrintingParams{
 
 extern int (*CPutchar)(int);
 extern void (*CSetColor)(u8 r, u8 g, u8 b);
-extern char ConverterBuffer[OUTPUT_ARRAY_SIZE];
 extern const double PowersOf10[601];
+extern char ConverterBuffer[OUTPUT_ARRAY_SIZE];
 
-const char *bufConvertINT(intmax_t value, const char printWay, char buffer[OUTPUT_ARRAY_SIZE]);
-const char *bufConvertUINT(uintmax_t value, const char printWay, char buffer[OUTPUT_ARRAY_SIZE]);
-const char *bufConvertFloat(double value, char buffer[OUTPUT_ARRAY_SIZE]);
-const char *bufConvertFloatMan(double value, char buffer[OUTPUT_ARRAY_SIZE]);
+const char *bufConvertINT       (intmax_t value,    const char printWay,    char buffer[OUTPUT_ARRAY_SIZE]);
+const char *bufConvertUINT      (uintmax_t value,   const char printWay,    char buffer[OUTPUT_ARRAY_SIZE]);
+const char *bufConvertFloat     (double value,      /*       NO      */     char buffer[OUTPUT_ARRAY_SIZE]);
+const char *bufConvertFloatMan  (double value,      /*       NO      */     char buffer[OUTPUT_ARRAY_SIZE]);
 
-#define ConvertINT(value, printWay)     bufConvertINT(value, printWay, ConverterBuffer)
-#define ConvertUINT(value, printWay)    bufConvertUINT(value, printWay, ConverterBuffer)
-#define ConvertFloat(value)             bufConvertFloat(value, ConverterBuffer)
-#define ConvertFloatMan(value)          bufConvertFloatMan(value, ConverterBuffer)
+#define ConvertINT(value, printWay)     bufConvertINT       (value, printWay,   (char*) alloca(OUTPUT_ARRAY_SIZE))
+#define ConvertUINT(value, printWay)    bufConvertUINT      (value, printWay,   (char*) alloca(OUTPUT_ARRAY_SIZE))
+#define ConvertFloat(value)             bufConvertFloat     (value, /*  NO  */  (char*) alloca(OUTPUT_ARRAY_SIZE))
+#define ConvertFloatMan(value)          bufConvertFloatMan  (value, /*  NO  */  (char*) alloca(OUTPUT_ARRAY_SIZE))
 
 __END_DECLS
 

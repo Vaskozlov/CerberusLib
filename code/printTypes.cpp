@@ -2,6 +2,8 @@
 #include <cerberus/cerbMath.h>
 #include <cerberus/printTypes.h>
 
+__BEGIN_DECLS
+
 #define isinf(x) __builtin_isinf (x)
 #define isnan(x) __builtin_isnan (x)
 
@@ -17,6 +19,7 @@ enum PrintingSizes{
     SIZE_L          = 8
 };
 
+int AVX_SUPPORT = 0;
 char ConverterBuffer[OUTPUT_ARRAY_SIZE] = {0};
 int (*CPutchar)(int) = NULL;
 void (*CSetColor)(u8 r, u8 g, u8 b) = NULL;
@@ -204,7 +207,7 @@ const char *bufConvertUINT(uintmax_t value, const char printWay, char buffer[OUT
 
 const char *bufConvertINT(intmax_t value, const char printWay, char buffer[OUTPUT_ARRAY_SIZE]){
     const char lazy_char = (value < 0) * '-';
-    value = ABS(value);
+    value = cerb::ABS(value);
 
     char *_ptr = (char*) bufConvertUINT(value, printWay, buffer);
     if (lazy_char == '-') *(--_ptr) = '-';
@@ -220,7 +223,7 @@ const char *bufConvertFloatMan(double value, char buffer[OUTPUT_ARRAY_SIZE]){
     unsigned position = 0;
     if (value < 0) buffer[position++] = '-'; // add '-' if value is negative
     
-    value = cerbABS(value);
+    value = cerb::ABS(value);
     int digits = (int)log10(value); // get exponent of number
 
     value *= PowersOf10[POWERS_POSITVE_OFFSET - digits + (digits < 0)];
@@ -246,10 +249,12 @@ const char *bufConvertFloatMan(double value, char buffer[OUTPUT_ARRAY_SIZE]){
     if (digits < 0) digits--;
     if (digits < 10 && digits > -10) buffer[position++] = '0';
     
-    digits = ABS(digits);
+    digits = cerb::ABS(digits);
     _ptr = (char*) bufConvertUINT(digits, 'u', buffer);
     
     for (; *_ptr != '\0'; _ptr++) buffer[position++] = *_ptr;
+
+    buffer[position] = '\0';
     return buffer;
 }
 
@@ -262,7 +267,7 @@ const char *bufConvertFloat(double value, char buffer[OUTPUT_ARRAY_SIZE]){
     unsigned position = 0;
     if (value < 0) buffer[position++] = '-'; // add '-' if value is negative
     
-    value = cerbABS(value);
+    value = cerb::ABS(value);
     int digits = (int)log10(value); // get exponent of number
 
     if (digits > 5 || digits <= -5) // if value is greater than 9.99e+05 it is converted like 1.313e+03
@@ -288,5 +293,8 @@ const char *bufConvertFloat(double value, char buffer[OUTPUT_ARRAY_SIZE]){
         for (; *_ptr != '\0'; _ptr++) buffer[position++] = *_ptr;
     }
 
+    buffer[position] = '\0';
     return buffer;
 }
+
+__END_DECLS

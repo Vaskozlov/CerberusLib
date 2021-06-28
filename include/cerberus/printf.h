@@ -14,7 +14,7 @@ int cerbPuts(const char *__restrict __str);
 int cerbPrintString(const char *__restrict __str);
 int cerbPrintf(const char *__restrict __fmt, ...);
 
-#define LOG(X, ...) cerbPrintf(X" from file: " __FILE__ ", function: %s, line: " STR(__LINE__), ##__VA_ARGS__, __PRETTY_FUNCTION__)
+#define LOG(X, ...) cerbPrintf(X" from file: " __FILE__ ", function: %s, line: " STR(__LINE__) "\n", ##__VA_ARGS__, __PRETTY_FUNCTION__)
 
 __END_DECLS
 
