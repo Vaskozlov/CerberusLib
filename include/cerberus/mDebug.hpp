@@ -2,7 +2,7 @@
 #define cerbMDebug_hpp
 
 #include <cerberus/move.hpp>
-#include <cerberus/cerberusc++.hpp>
+#include <cerberus/cerberus.h>
 
 #define INIT_MDEBUGGER(Printf, Malloc, Free) cerb::MemoryDebug cerb::MemoryDebuger(Printf, Malloc, Free)
 

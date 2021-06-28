@@ -42,6 +42,7 @@ void memcpy32 (void *__dest, const void *__src, size_t __times);
 void memcpy64 (void *__dest, const void *__src, size_t __times);
 
 void scan4SSE();
+void setSSE(u64 __value);
 
 void EnableSSEIN();
 void EnableAVXIN();
@@ -54,7 +55,7 @@ __END_DECLS
 
 namespace cerb{
 
-    static always_inline void outb(unsigned short __port, unsigned short __val){
+    static always_inline void outb(unsigned short __port, unsigned char __val){
         __asm__ volatile ("outb %0,%1" : : "a" (__val), "dN" (__port));
     }
 
@@ -62,7 +63,7 @@ namespace cerb{
         __asm__ volatile ("outw %0,%1" : : "a" (__val), "dN" (__port));
     }
 
-    static always_inline void outl(unsigned short __port, unsigned short __val){
+    static always_inline void outl(unsigned short __port, unsigned int __val){
         __asm__ volatile ("outl %0,%1" : : "a" (__val), "dN" (__port));
     }
 

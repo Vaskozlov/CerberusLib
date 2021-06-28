@@ -25,3 +25,10 @@ void scan4SSE(){
     if (GetSSEFlag(AVX) && GetSSEFlag(XSAVE))
         AVX_SUPPORT = 1;
 }
+
+void setSSE(u64 __value){
+    FLAGS_OF_SSE = __value;
+
+    if (GetSSEFlag(AVX) && GetSSEFlag(XSAVE))
+        AVX_SUPPORT = 1;
+}
