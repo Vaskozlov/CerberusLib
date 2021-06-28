@@ -21,7 +21,9 @@
 #endif /* __cplusplus */
 
 __BEGIN_DECLS
+
 extern int AVX_SUPPORT;
+
 __END_DECLS
 
 #endif /* cerberus_h */
