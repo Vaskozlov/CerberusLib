@@ -9,9 +9,11 @@
 namespace cerb{
 
     class MemoryDebug{
+    public:
         int (*Printf)(const char *__restrict, ...);
         void *(*Malloc)(size_t);
         void (*Free)(void*);
+    private:
         size_t memoryBlocks[1000183];
         static constexpr size_t NumberOfBlocks = sizeof(memoryBlocks) / sizeof(size_t);
 
