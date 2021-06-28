@@ -3,7 +3,7 @@
 
 #include <initializer_list>
 #include <cerberus/move.hpp>
-#include <cerberus/cerberusc++.hpp>
+#include <cerberus/cerberus.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wreorder-ctor"

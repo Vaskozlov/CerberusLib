@@ -1,7 +1,5 @@
 .text
 
-.global EnableSSEIN
-.global EnableAVXIN
 .global CPU_ID
 .global memset
 .global memset8
@@ -14,9 +12,15 @@
 .global memcpy32
 .global memcpy64
 
+.global EnableSSEIN
+.global EnableAVXIN
+.global EnableXSAVEIN
+
+.type CPU_ID,@function
 .type EnableSSEIN,@function
 .type EnableAVXIN,@function
-.type CPU_ID,@function
+.type EnableXSAVEIN,@function
+
 .type memset,@function
 .type memset8,@function
 .type memset16,@function
@@ -31,7 +35,7 @@
 EnableSSEIN:
     movq %cr0, %rax
     andw $0xFFFB, %ax
-    orw $2, %ax
+    orw $0x02, %ax
     movq %rax, %cr0
 
     movq %cr4, %rax
@@ -39,19 +43,19 @@ EnableSSEIN:
     movq %rax, %cr4
     retq
 
+
+EnableXSAVEIN:
+    movq %cr4, %rax
+    orl $(1<<18), %eax
+    movq %rax, %cr4
+    retq
+
 EnableAVXIN:
-    push %rax
-    push %rcx
-    push %rdx
- 
     xor %rcx, %rcx
     xgetbv
     orl $7, %eax
     xsetbv
- 
-    pop %rdx
-    pop %rcx
-    pop %rax
+
     retq
 
 CPU_ID:

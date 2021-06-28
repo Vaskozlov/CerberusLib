@@ -2,7 +2,7 @@
 #define bitmap_hpp
 
 #include <cerberus/move.hpp>
-#include <cerberus/cerberusc++.hpp>
+#include <cerberus/cerberus.h>
 
 #ifndef offsetof
 #define offsetof(t, d) __builtin_offsetof(t, d)

@@ -1,9 +1,10 @@
+#include <cerberus/io.h>
 #include <cerberus/memclear.h>
 
 #define SSE_XMM_SIZE 16
 
 const char *cerbMemclear(const void * const m_start, const size_t m_count){
-    if (AVX_SUPPORT) return memclear_avx(m_start, m_count);
+    if (*GetAVXSUPPORT) return memclear_avx(m_start, m_count);
     return memclear_sse(m_start, m_count);
 }
 

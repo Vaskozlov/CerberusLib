@@ -15,15 +15,9 @@
 #include <cerberus/cerbMath.h>
 
 #if defined(__cplusplus)
-#  include <cerberus/cerberusc++.hpp>
+#  include <cerberus/private/cerberusc++.hpp>
 #else
-#  include <cerberus/cerberusc.h>
+#  include <cerberus/private/cerberusc.h>
 #endif /* __cplusplus */
-
-__BEGIN_DECLS
-
-extern int AVX_SUPPORT;
-
-__END_DECLS
 
 #endif /* cerberus_h */

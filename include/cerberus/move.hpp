@@ -1,7 +1,7 @@
 #ifndef cerbMove_hpp
 #define cerbMove_hpp
 
-#include <cerberus/cerberusc++.hpp>
+#include <cerberus/cerberus.h>
 
 namespace cerb {
 

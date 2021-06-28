@@ -36,6 +36,9 @@ extern void (*CSetColor)(u8 r, u8 g, u8 b);
 extern const double PowersOf10[601];
 extern char ConverterBuffer[OUTPUT_ARRAY_SIZE];
 
+double log10(double x) __attribute__((weak));
+double round(double x) __attribute__((weak));
+
 const char *bufConvertINT       (intmax_t value,    const char printWay,    char buffer[OUTPUT_ARRAY_SIZE]);
 const char *bufConvertUINT      (uintmax_t value,   const char printWay,    char buffer[OUTPUT_ARRAY_SIZE]);
 const char *bufConvertFloat     (double value,      /*       NO      */     char buffer[OUTPUT_ARRAY_SIZE]);

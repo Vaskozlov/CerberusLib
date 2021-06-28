@@ -14,7 +14,6 @@ __BEGIN_DECLS
 #define isinf(x) __builtin_isinf (x)
 #define isnan(x) __builtin_isnan (x)
 
-double log10(double x);
 double round(double x);
 
 enum PrintingSizes{
@@ -303,8 +302,8 @@ static int cerbPrintFloatSci(double value, PrintingParams_t *params){
     char *__ptr;
     int change;
     char *buffer = (char*) alloca(OUTPUT_ARRAY_SIZE);
-    const char lazy_char =  ('-' * (value < 0.0)) + \ 
-                            ('+' * (value >= 0.0 && params->plus_flag)) + \ 
+    const char lazy_char =  ('-' * (value < 0.0)) + \
+                            ('+' * (value >= 0.0 && params->plus_flag)) + \
                             (' ' * (value >= 0.0 && params->whitespace));
     
     value = cerb::ABS(value);
