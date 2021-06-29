@@ -12,6 +12,7 @@
 .global memcpy32
 .global memcpy64
 
+.global DO_NOT_OPTIMIZE
 .global EnableSSEIN
 .global EnableAVXIN
 .global EnableXSAVEIN
@@ -20,6 +21,7 @@
 .type EnableSSEIN,@function
 .type EnableAVXIN,@function
 .type EnableXSAVEIN,@function
+.type DO_NOT_OPTIMIZE,@function
 
 .type memset,@function
 .type memset8,@function
@@ -31,6 +33,9 @@
 .type memcpy16,@function
 .type memcpy32,@function
 .type memcpy64,@function
+
+DO_NOT_OPTIMIZE:
+    retq
 
 EnableSSEIN:
     movq %cr0, %rax
@@ -45,16 +50,26 @@ EnableSSEIN:
 
 
 EnableXSAVEIN:
-    movq %cr4, %rax
-    orl $(1<<18), %eax
-    movq %rax, %cr4
+    
     retq
 
 EnableAVXIN:
+    movq %cr4, %rax
+    orl $(1<<18), %eax
+    movq %rax, %cr4
+    
+    push %rax
+    push %rcx
+    push %rdx
+
     xor %rcx, %rcx
     xgetbv
     orl $7, %eax
     xsetbv
+
+    pop %rdx
+    pop %rcx
+    pop %rax
 
     retq
 
