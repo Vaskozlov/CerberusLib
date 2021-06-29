@@ -22,7 +22,7 @@ void scan4SSE(){
     CPUID_RESULT_t page7_0 = CPU_ID(7, 0);
     if (page7_0.rdx & (1<<26U))  FLAGS_OF_SSE |= AVX2;
 
-    if (GetSSEFlag(AVX) && GetSSEFlag(XSAVE))
+    if (GetSSEFlag(AVX) == 1 && GetSSEFlag(XSAVE) == 1)
         AVX_SUPPORT = 1;
 }
 

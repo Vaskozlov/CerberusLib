@@ -3,14 +3,14 @@
 
 #define SSE_XMM_SIZE 16
 
-const char *cerbMemclear(const void * const m_start, const size_t m_count){
-    if (*GetAVXSUPPORT) return memclear_avx(m_start, m_count);
-    return memclear_sse(m_start, m_count);
+void cerbMemclear(const void * const m_start, const size_t m_count){
+    if (*GetAVXSUPPORT) memclear_avx(m_start, m_count);
+    else memclear_sse(m_start, m_count);
 }
 
-const void * memclear_sse(const void * const m_start, const size_t m_count){
+void memclear_sse(const void * const m_start, const size_t m_count){
     size_t i = 0;
-    if (m_count == 0) return m_start;
+    if (m_count == 0) return;
 
     while(((size_t)m_start + i) & (SSE_XMM_SIZE - 1) && i < m_count)
     {
@@ -21,11 +21,13 @@ const void * memclear_sse(const void * const m_start, const size_t m_count){
         );
         i++;
     }
-  
+    __asm__ __volatile__ (
+        " pxor %xmm0, %xmm0  	\n"    // set XMM0 to 0
+    );
+
     for(; i + 64 <= m_count; i += 64)
     {
         __asm__ __volatile__(
-            " pxor %%xmm0, %%xmm0  	\n"    // set XMM0 to 0
             " movdqa %%xmm0, 0(%0) 	\n"    // move 16 bytes from XMM0 to %0 + 0
             " movdqa %%xmm0, 16(%0)	\n"
             " movdqa %%xmm0, 32(%0)	\n"
@@ -44,9 +46,6 @@ const void * memclear_sse(const void * const m_start, const size_t m_count){
 
     // "i" will contain the total amount of bytes that were actually transfered
     i += m_count - i;
-
-    // we return "m_start" + the amount of bytes that were transfered
-    return (void *)(((size_t)m_start) + i);
 }
 
 size_t strlen_sse(const char * const str){

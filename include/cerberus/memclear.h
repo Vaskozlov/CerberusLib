@@ -12,9 +12,9 @@ __BEGIN_DECLS
 size_t strlen_sse(const char * const str);
 
 extern void DO_NOT_OPTIMIZE(i64);
-const char *cerbMemclear(const void * const m_start, const size_t m_count);
-const void * memclear_sse(const void * const m_start, const size_t m_count);
-const void * memclear_avx (const void * const m_start, const size_t m_count);
+void cerbMemclear(const void * const m_start, const size_t m_count);
+void memclear_sse(const void * const m_start, const size_t m_count);
+void memclear_avx (const void * const m_start, size_t m_count);
 
 __END_DECLS
 

@@ -90,6 +90,11 @@ $(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_avx.o: $(SRC_DIR)/$(ARCH)/sseavx/%_avx.
 	@mkdir -p $(@D)
 	$(CC) -mavx -mavx2 $(CFLAGS) $< -o $@
 
+$(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_avx.o: $(SRC_DIR)/$(ARCH)/sseavx/%_avx.cpp
+	@mkdir -p $(@D)
+	$(CXX) -mavx -mavx2 $(CXXFLAGS) $< -o $@
+
+
 $(BUILD_DIR)/%.o: tests/%.cpp
 	$(CXX) -c -g -Wall -Wextra -O0 -std=c++20 -I ./include $< -o $@
 
