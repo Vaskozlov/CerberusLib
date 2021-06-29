@@ -6,7 +6,7 @@
 #if defined(__cplusplus)
 
 namespace cerb{
-    namespace io{
+    namespace IO{
         static always_inline void outb(unsigned short __port, unsigned char __val){
             __asm__ volatile ("outb %0,%1" : : "a" (__val), "dN" (__port));
         }
