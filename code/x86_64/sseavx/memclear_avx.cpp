@@ -6,9 +6,14 @@
 void memclear_avx(const void * const m_start, size_t m_count){
     char *data2set = (char*)m_start;
     char *aligned = (char*)cerb::align((size_t)data2set, 5);
+    auto times = (size_t)(aligned - data2set);
+    m_count -= cerb::MIN(times, m_count);
 
-    for (; data2set != aligned && m_count != 0; m_count--, data2set++)
-        *data2set = 0;
+    __asm__(
+        "rep stosb"
+        :
+        : "a"((size_t)(0)), "D"((size_t)data2set), "c"(times - (m_count==0))
+    );
 
     __asm__ __volatile__(
         "vpxor %ymm0, %ymm0, %ymm0  	\n"    // set XMM0 to 0
@@ -26,7 +31,18 @@ void memclear_avx(const void * const m_start, size_t m_count){
         );
         aligned += 128;
     }
+    
+    if (m_count == 0) [[unlikely]] return;
 
-    for (; m_count != 0; m_count--)
-        *(aligned++) = 0;
+    __asm__(
+        "rep stosl"
+        :
+        : "a"((size_t)(0)), "D"((size_t)aligned), "c"(m_count / 4)
+    );
+
+    __asm__(
+        "rep stosb"
+        :
+        : "a"((size_t)(0)), "D"((size_t)aligned + (m_count & (~3))), "c"(m_count & 3)
+    );
 }

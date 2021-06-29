@@ -78,17 +78,14 @@ $(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/%.s.o: $(SRC_DIR)/$(ARCH)/%.s
 	@mkdir -p $(@D)
 	$(CC) $(ASMFLAGS) $< -o $@
 
-$(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_sse.o: $(SRC_DIR)/$(ARCH)/sseavx/%_sse.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $< -o $@
-
 $(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%.o: $(SRC_DIR)/$(ARCH)/sseavx/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_avx.o: $(SRC_DIR)/$(ARCH)/sseavx/%_avx.c
+$(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_sse.o: $(SRC_DIR)/$(ARCH)/sseavx/%_sse.cpp
 	@mkdir -p $(@D)
-	$(CC) -mavx -mavx2 $(CFLAGS) $< -o $@
+	$(CXX) -mavx -mavx2 $(CXXFLAGS) $< -o $@
+
 
 $(BUILD_DIR)/$(SRC_DIR)/$(ARCH)/sseavx/%_avx.o: $(SRC_DIR)/$(ARCH)/sseavx/%_avx.cpp
 	@mkdir -p $(@D)

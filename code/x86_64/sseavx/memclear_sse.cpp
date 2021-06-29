@@ -8,7 +8,50 @@ void cerbMemclear(const void * const m_start, const size_t m_count){
     else memclear_sse(m_start, m_count);
 }
 
-void memclear_sse(const void * const m_start, const size_t m_count){
+void memclear_sse(const void * const m_start, size_t m_count){
+    char *data2set = (char*)m_start;
+    char *aligned = (char*)cerb::align((size_t)data2set, 4);
+    auto times = (size_t)(aligned - data2set);
+    m_count -= cerb::MIN(times, m_count);
+
+    __asm__(
+        "rep stosb"
+        :
+        : "a"((size_t)(0)), "D"((size_t)data2set), "c"(times  - (m_count==0))
+    );
+
+    __asm__ __volatile__(
+        "pxor %xmm0, %xmm0	\n"    // set XMM0 to 0
+    );
+
+    for(; m_count >= 64; m_count -= 64)
+    {
+        __asm__ __volatile__(
+            " movdqa %%xmm0, 0(%0) 	        \n"    // move 16 bytes from XMM0 to %0 + 0
+            " movdqa %%xmm0, 16(%0)	        \n"
+            " movdqa %%xmm0, 32(%0)	        \n"
+            " movdqa %%xmm0, 48(%0)	        \n"
+            :
+            : "r"(aligned)
+        );
+        aligned += 64;
+    }
+
+    __asm__(
+        "rep stosl"
+        :
+        : "a"((size_t)(0)), "D"((size_t)aligned), "c"(m_count / 4)
+    );
+
+    __asm__(
+        "rep stosb"
+        :
+        : "a"((size_t)(0)), "D"((size_t)aligned + (m_count & (~3))), "c"(m_count & 3)
+    );
+}
+
+
+void memclear_sse_old(const void * const m_start, const size_t m_count){
     size_t i = 0;
     if (m_count == 0) return;
 

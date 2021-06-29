@@ -31,6 +31,8 @@ typedef struct{
 extern u64 const * const GetFlagsOfSSE;
 extern int const * const GetAVXSUPPORT;
 
+extern void DO_NOT_OPTIMIZE(i64);
+
 void memset8 (void *__address, u8  __value, size_t __times);
 void memset16(void *__address, u16 __value, size_t __times);
 void memset32(void *__address, u32 __value, size_t __times);
@@ -166,19 +168,35 @@ namespace cerb{
     }
 
     always_inline static void memset8(void *__address, u8 __value, size_t __times){
-        ::memset8(__address, __value, __times);
+        __asm__ __volatile__ (
+            "rep stosb"
+            :
+            : "a"(__value), "D"(__address), "c"(__times)
+        );
     }
 
-    always_inline static void memset64(void *__address, u16 __value, size_t __times){
-        ::memset16(__address, __value, __times);
+    always_inline static void memset16(void *__address, u16 __value, size_t __times){
+        __asm__ __volatile__ (
+            "rep stosw"
+            :
+            : "a"(__value), "D"(__address), "c"(__times)
+        );
     }
 
     always_inline static void memset32(void *__address, u32 __value, size_t __times){
-        ::memset32(__address, __value, __times);
+        __asm__ __volatile__ (
+            "rep stosl"
+            :
+            : "a"(__value), "D"(__address), "c"(__times)
+        );
     }
 
-    always_inline static void memset64(void *__address, u64 __value, size_t __times){
-        ::memset64(__address, __value, __times);
+    always_inline void memset64(void *__address, u64 __value, size_t __times){
+        __asm__ __volatile__ (
+            "rep stosq"
+            :
+            : "a"(__value), "D"(__address), "c"(__times)
+        );
     }
 }
 
