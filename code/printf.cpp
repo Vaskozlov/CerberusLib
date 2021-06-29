@@ -1,7 +1,7 @@
 #include <alloca.h>
+#include <cerberus/memclear.h>
 #include <cerberus/printf.h>
 #include <cerberus/cerbMath.h>
-#include <cerberus/memclear.h>
 
 template <typename _Tp>
 constexpr auto GetPowerOf10(_Tp digit) -> double {

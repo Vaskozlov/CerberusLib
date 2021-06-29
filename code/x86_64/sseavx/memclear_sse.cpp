@@ -1,4 +1,3 @@
-#include <cerberus/io.h>
 #include <cerberus/memclear.h>
 
 #define SSE_XMM_SIZE 16

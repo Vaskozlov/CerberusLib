@@ -1,4 +1,4 @@
-#include <cerberus/io.h>
+#include <cerberus/memclear.h>
 
 int AVX_SUPPORT = 0;
 u64 FLAGS_OF_SSE = 0;
