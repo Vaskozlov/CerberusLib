@@ -140,8 +140,14 @@ namespace cerb{
     public:
         VirtualAddr() = default;
         ~VirtualAddr() = default;
-        always_inline VirtualAddr(void *addr) : _address(reinterpret_cast<cerb::byte*>(addr)) {}
         always_inline VirtualAddr(u64 addr) : _address(reinterpret_cast<cerb::byte*>(addr)) {}
+        always_inline VirtualAddr(void *addr) : _address(reinterpret_cast<cerb::byte*>(addr)) {}
+        
+        always_inline VirtualAddr(size_t index1GB, size_t index2MB, size_t index4KB) : _address(
+            reinterpret_cast<cerb::byte*>(
+                    (index1GB<<30) + (index2MB << 21) + (index4KB << 21)
+            )
+        ) {}
 	};
 
 } // namespace cerb
