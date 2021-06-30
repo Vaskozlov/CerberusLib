@@ -75,6 +75,16 @@ namespace cerb{
             return *this;
         }
 
+        always_inline VirtualAddr &operator<<=(const VirtualAddr _rhs){
+            this->_address = reinterpret_cast<cerb::byte*>(value() << _rhs.value());
+            return *this;
+        }
+
+        always_inline VirtualAddr &operator>>=(const VirtualAddr _rhs){
+            this->_address = reinterpret_cast<cerb::byte*>(value() >> _rhs.value());
+            return *this;
+        }
+
     public:
         always_inline size_t GetAmountOfKB() const noexcept {
             return (value() >> 10UL);
@@ -159,6 +169,14 @@ namespace cerb{
 
         always_inline friend VirtualAddr operator^(const VirtualAddr _lhs, const VirtualAddr _rhs){
             return _lhs.value() ^ _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator>>(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() >> _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator<<(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() << _rhs.value();
         }
 
     public:
