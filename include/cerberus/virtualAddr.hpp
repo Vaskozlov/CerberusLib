@@ -34,45 +34,45 @@ namespace cerb{
             this->_address--;
             return *this;
         }
-
-        always_inline VirtualAddr &operator-=(void *change) noexcept {
-            this->_address -= reinterpret_cast<size_t>(change);
+     
+        always_inline VirtualAddr &operator-=(const VirtualAddr _rhs) noexcept {
+            this->_address -= _rhs.value();
             return *this;
         }
 
-        always_inline VirtualAddr &operator+=(void *change) noexcept {
-            this->_address += reinterpret_cast<size_t>(change);
+        always_inline VirtualAddr &operator+=(const VirtualAddr _rhs) noexcept {
+            this->_address += _rhs.value();
             return *this;
         }
 
-        always_inline VirtualAddr &operator-=(size_t change) noexcept {
-            this->_address -= change;
+        always_inline VirtualAddr &operator/=(const VirtualAddr _rhs) noexcept {
+            this->_address = reinterpret_cast<cerb::byte*>(value() / _rhs.value());
             return *this;
         }
 
-        always_inline VirtualAddr &operator+=(size_t change) noexcept {
-            this->_address += change;
+        always_inline VirtualAddr &operator*=(const VirtualAddr _rhs) noexcept {
+            this->_address = reinterpret_cast<cerb::byte*>(value() * _rhs.value());
+            return *this;
+        }
+        
+        always_inline VirtualAddr &operator&=(const VirtualAddr _rhs) noexcept {
+            this->_address = reinterpret_cast<cerb::byte*>(value() & _rhs.value());
             return *this;
         }
 
-        always_inline VirtualAddr &operator-=(VirtualAddr &change) noexcept {
-            this->_address -= change.value();
+        always_inline VirtualAddr &operator|=(const VirtualAddr _rhs) noexcept {
+            this->_address = reinterpret_cast<cerb::byte*>(value() | _rhs.value());
             return *this;
         }
 
-        always_inline VirtualAddr &operator+=(VirtualAddr &change) noexcept {
-            this->_address += change.value();
+        always_inline VirtualAddr &operator^=(const VirtualAddr _rhs) noexcept {
+           this->_address = reinterpret_cast<cerb::byte*>(value() ^ _rhs.value());
             return *this;
         }
 
-        always_inline friend VirtualAddr operator+(VirtualAddr lhs, const VirtualAddr& rhs){
-            lhs += rhs.value();
-            return lhs;
-        }
-
-        always_inline friend VirtualAddr operator-(VirtualAddr lhs, const VirtualAddr& rhs){
-            lhs -= rhs.value();
-            return lhs;
+        always_inline VirtualAddr &operator%=(const VirtualAddr _rhs){
+            this->_address = reinterpret_cast<cerb::byte*>(value() % _rhs.value());
+            return *this;
         }
 
     public:
@@ -102,30 +102,66 @@ namespace cerb{
         }
 
     public:
-        friend bool operator==(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        friend bool operator==(const VirtualAddr _lhs, const VirtualAddr &_rhs){
             return _lhs._address == _rhs._address;
         }
 
-        inline friend bool operator!=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        inline friend bool operator!=(const VirtualAddr _lhs, const VirtualAddr &_rhs){
             return _lhs._address != _rhs._address;
         }
 
-        friend bool operator>(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        friend bool operator>(const VirtualAddr _lhs, const VirtualAddr &_rhs){
             return _lhs._address > _rhs._address;
         }
 
-        friend bool operator<(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        friend bool operator<(const VirtualAddr _lhs, const VirtualAddr &_rhs){
             return _lhs._address < _rhs._address;
         }
 
-        inline friend bool operator>=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        inline friend bool operator>=(const VirtualAddr _lhs, const VirtualAddr &_rhs){
              return _lhs._address >= _rhs._address;
         }
 
-        inline friend bool operator<=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+        inline friend bool operator<=(const VirtualAddr _lhs, const VirtualAddr &_rhs){
              return _lhs._address <= _rhs._address;
         }
 
+    public:
+        always_inline friend VirtualAddr operator+(VirtualAddr lhs, const VirtualAddr _rhs){
+            lhs._address += _rhs.value();
+            return lhs;
+        }
+
+        always_inline friend VirtualAddr operator-(VirtualAddr lhs, const VirtualAddr _rhs){
+            lhs._address -= _rhs.value();
+            return lhs;
+        }
+
+        always_inline friend VirtualAddr operator%(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() % _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator/(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() / _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator*(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() * _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator&(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() & _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator|(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() | _rhs.value();
+        }
+
+        always_inline friend VirtualAddr operator^(const VirtualAddr _lhs, const VirtualAddr _rhs){
+            return _lhs.value() ^ _rhs.value();
+        }
+
+    public:
         template<typename _Tp>
         always_inline operator _Tp*() const { return static_cast<_Tp*>(address()); }
 
