@@ -1,4 +1,3 @@
-#include <compare>
 #include <cerberus/cerberus.h>
 
 namespace cerb{
