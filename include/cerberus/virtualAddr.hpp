@@ -77,7 +77,29 @@ namespace cerb{
         }
 
     public:
-        always_inline auto operator<=>(const VirtualAddr&) const = default;
+        friend bool operator==(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+            return _lhs._address == _rhs._address;
+        }
+
+        inline friend bool operator!=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+            return _lhs._address != _rhs._address;
+        }
+
+        friend bool operator>(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+            return _lhs._address > _rhs._address;
+        }
+
+        friend bool operator<(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+            return _lhs._address < _rhs._address;
+        }
+
+        inline friend bool operator>=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+             return _lhs._address >= _rhs._address;
+        }
+
+        inline friend bool operator<=(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
+             return _lhs._address <= _rhs._address;
+        }
 
     public:
         VirtualAddr &operator=(VirtualAddr &&other) = default;
@@ -94,4 +116,4 @@ namespace cerb{
         always_inline VirtualAddr(u64 addr) : _address(reinterpret_cast<cerb::byte*>(addr)) {}
 	};
 
-} /* cerb */
+} // namespace cerb
