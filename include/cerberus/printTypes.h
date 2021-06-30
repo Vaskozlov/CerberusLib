@@ -27,7 +27,7 @@ typedef struct PrintingParams{
 
     unsigned width;
     unsigned precision;
-} PrintingParams_t;
+} __attribute__((trivial_abi)) PrintingParams_t;
 
 #define INIT_PRINTING_PARAMS {0, 0, 0, 0, 0, 0, 0, ~0U}
 
