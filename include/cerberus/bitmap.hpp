@@ -273,7 +273,7 @@ namespace cerb{
             clearMem();
         }
     };
-}
+} // namespace cerb
 
 #if defined(__has_warning)
 #  if __has_warning("-Wreorder-ctor")

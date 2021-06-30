@@ -1,3 +1,4 @@
+#include <compare>
 #include <cerberus/cerberus.h>
 
 namespace cerb{
@@ -8,6 +9,10 @@ namespace cerb{
 	public:
 		always_inline void *address() const noexcept {
             return reinterpret_cast<void*>(_address);
+        }
+
+        always_inline u64 value() const noexcept {
+            return reinterpret_cast<u64>(_address);
         }
 
     public:
@@ -49,6 +54,26 @@ namespace cerb{
         always_inline VirtualAddr &operator+=(size_t change) noexcept {
             this->_address += change;
             return *this;
+        }
+
+        always_inline VirtualAddr &operator-=(VirtualAddr &change) noexcept {
+            this->_address -= change.value();
+            return *this;
+        }
+
+        always_inline VirtualAddr &operator+=(VirtualAddr &change) noexcept {
+            this->_address += change.value();
+            return *this;
+        }
+
+        always_inline friend VirtualAddr operator+(VirtualAddr lhs, const VirtualAddr& rhs){
+            lhs += rhs.value();
+            return lhs;
+        }
+
+        always_inline friend VirtualAddr operator-(VirtualAddr lhs, const VirtualAddr& rhs){
+            lhs -= rhs.value();
+            return lhs;
         }
 
     public:

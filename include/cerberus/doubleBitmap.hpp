@@ -302,6 +302,6 @@ namespace cerb{
         DoubleBitmapFree(_Tp *buffer1, size_t elems) : _data1(buffer1), _data2(buffer1 + cerb::MAX<size_t>(elems / cerb::sizeofbits<_Tp>(), 1)), _size(elems) {}
         DoubleBitmapFree(_Tp *buffer1, _Tp *buffer2, size_t elems) : _data1(buffer1), _data2(buffer2), _size(elems) {}
     };
-}
+} // namespace cerb
 
 #endif /* doubleBitmap_hpp */

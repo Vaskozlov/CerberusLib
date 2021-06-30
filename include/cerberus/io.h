@@ -117,7 +117,7 @@ namespace cerb{
             while (1) { hlt();}
         }
     } // namespace  io
-}
+} //namespace cerb
 
 #endif /* __cplusplus */ 
 

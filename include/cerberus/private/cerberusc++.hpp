@@ -27,10 +27,6 @@ typedef uint32_t    u32;
 typedef uint64_t    u64;
 
 namespace cerb{
-    using byte = uint8_t;
-}
-
-namespace cerb{
 
     template<typename _Tp>
     union ByteMask{
@@ -41,6 +37,7 @@ namespace cerb{
         u64 mask64[sizeof(_Tp) / sizeof(u64)];
     };
 
+    using byte = uint8_t;
     constexpr double PI = 3.14159265358979323846;
 
     template<typename _Tp>
@@ -94,6 +91,6 @@ namespace cerb{
                 (static_cast<u64>(_str[1]) << 8 ) |
                 (static_cast<u64>(_str[0]) << 0 );
     }
-}
+} // namespace cerb
 
 #endif /* cerberuscpp_hpp */
