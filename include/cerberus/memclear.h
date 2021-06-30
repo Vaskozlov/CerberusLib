@@ -95,7 +95,7 @@ namespace cerb{
             : "a"(__value), "D"(__address), "c"(__times)
         );
     }
-}
+} //namespace cerb
 
 #endif /* __cplusplus */
 #endif /* __x86_64__ */

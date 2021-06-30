@@ -199,7 +199,7 @@ namespace cerb{
         
         always_inline VirtualAddr(size_t index1GB, size_t index2MB, size_t index4KB) : _address(
             reinterpret_cast<cerb::byte*>(
-                    (index1GB<<30) + (index2MB << 21) + (index4KB << 21)
+                    (index1GB<<30) + (index2MB << 21) + (index4KB << 12)
             )
         ) {}
 	};
