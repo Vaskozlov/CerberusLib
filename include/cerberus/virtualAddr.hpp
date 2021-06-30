@@ -76,6 +76,32 @@ namespace cerb{
         }
 
     public:
+        always_inline size_t GetAmountOfKB() const noexcept {
+            return (value() >> 10UL);
+        }
+
+        always_inline size_t GetAmountOfMB() const noexcept {
+            return (value() >> 20UL);
+        }
+
+        always_inline size_t GetAmountOfGB() const noexcept {
+            return (value() >> 30UL);
+        }
+
+    public:
+        always_inline size_t Get4KBIndex() const noexcept {
+            return (value() >> 12UL) % 512;
+        }
+
+        always_inline size_t Get2MBIndex() const noexcept {
+            return (value() >> 21UL) % 512;
+        }
+
+        always_inline size_t Get1GBIndex() const noexcept {
+            return (value() >> 30UL);
+        }
+
+    public:
         friend bool operator==(const VirtualAddr &_lhs, const VirtualAddr &_rhs){
             return _lhs._address == _rhs._address;
         }
