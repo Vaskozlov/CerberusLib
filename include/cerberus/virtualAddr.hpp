@@ -126,6 +126,9 @@ namespace cerb{
              return _lhs._address <= _rhs._address;
         }
 
+        template<typename _Tp>
+        always_inline operator _Tp*() const { return static_cast<_Tp*>(address()); }
+
     public:
         VirtualAddr &operator=(VirtualAddr &&other) = default;
         VirtualAddr &operator=(const VirtualAddr &other) = default;

@@ -1,5 +1,5 @@
 CC	:= clang
-CXX	:= usr/bin/clang++
+CXX	:= /usr/bin/clang++
 
 CCV := $(shell $(CC) -dumpversion)
 
